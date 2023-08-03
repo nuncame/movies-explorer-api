@@ -80,9 +80,6 @@ const updateUserData = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
       }
-      if (err.code === 11000) {
-        return next(new ConflictError('Такой e-mail уже используется'));
-      }
       return next(err);
     });
 };
