@@ -31,7 +31,7 @@ const postMovieSchema = Joi.object().keys({
 });
 
 const delMovieSchema = Joi.object().keys({
-  _id: Joi.string().length(24).hex().required(),
+  movieId: Joi.string().required(),
 });
 
 module.exports = {

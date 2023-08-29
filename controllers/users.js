@@ -8,17 +8,17 @@ const UnauthorizedError = require('../errors/unathorized-err');
 
 const createUser = (req, res, next) => {
   const {
-    email, name, password,
+    name, email, password,
   } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({
-      email, name, password: hash,
+      name, email, password: hash,
     }))
     .then((user) => res
       .status(201)
       .send({
-        email: user.email, name: user.name, _id: user._id,
+        name: user.name, email: user.email, _id: user._id,
       }))
     .catch((err) => {
       if (err.name === 'ValidationError') {

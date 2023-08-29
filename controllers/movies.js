@@ -4,7 +4,7 @@ const ForbiddenError = require('../errors/forbidden-err');
 const NotFoundError = require('../errors/not-found-err');
 
 const getMovies = (req, res, next) => {
-  Movie.find({ owner: req.user.id })
+  Movie.find({ owner: req.user.id.toString() })
     .then((data) => res.status(200).send(data))
     .catch(next);
 };
@@ -48,9 +48,9 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  const { _id } = req.params;
+  const id = req.params.movieId;
   const user = req.user.id;
-  Movie.findById(_id)
+  Movie.findOne({ movieId: id })
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Фильм с указанным id не найден');
@@ -58,7 +58,7 @@ const deleteMovie = (req, res, next) => {
       if (user !== movie.owner.toHexString()) {
         throw new ForbiddenError('Нет доступа');
       }
-      Movie.findOneAndDelete({ _id: movie._id })
+      Movie.findOneAndDelete({ movieId: movie.movieId })
         .then((deletedMovie) => res.status(200).send(deletedMovie))
         .catch(next);
     })

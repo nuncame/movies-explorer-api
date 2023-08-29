@@ -11,7 +11,7 @@ router.post('/movies', celebrate({
   body: postMovieSchema,
 }), createMovie);
 
-router.delete('/movies/:_id', celebrate({
+router.delete('/movies/:movieId', celebrate({
   params: delMovieSchema,
 }), deleteMovie);
 
